@@ -7,6 +7,7 @@ from drf_spectacular.views import (SpectacularAPIView,
 urlpatterns = [
     path('api/', include([
         path('auth/', include('authentication.urls')),
+        path('features/', include('features.urls')),
 
     ])),
     path('schema/', SpectacularAPIView.as_view(), name='schema'),
