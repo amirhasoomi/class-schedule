@@ -30,6 +30,7 @@ INSTALLED_APPS = [
 
     'features.apps.FeaturesConfig',
     'authentication.apps.AuthenticationConfig',
+    'projection.apps.ProjectionConfig',
 
     'rest_framework',
     'drf_spectacular',
