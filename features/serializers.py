@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Slider, Banner, Partners, supporters
+from .models import Slider, Banner, Partners, Supporters, Contact
 
 
 class SliderSerializer(serializers.ModelSerializer):
@@ -22,5 +22,11 @@ class PartnersSerializer(serializers.ModelSerializer):
 
 class SupportersSerializer(serializers.ModelSerializer):
     class Meta:
-        model = supporters
+        model = Supporters
+        fields = ('__all__')
+
+
+class ContactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contact
         fields = ('__all__')
