@@ -39,7 +39,7 @@ class User(AbstractBaseUser):
 
     @property
     def is_staff(self):
-        return self.user_type == Conf.USER_TYPE_Leader
+        return self.user_type == Conf.USER_TYPE_MEMBER
 
     def api_token(self):
         refresh = RefreshToken.for_user(self)
@@ -75,7 +75,7 @@ class Profile(CreationMixin):
 
         defaults = defaults or {}
         return cls.objects.get_or_create(**kwargs, defaults={
-            'user': User.create_deferred_user(user_type=Conf.USER_TYPE_LEADER),
+            'user': User.create_deferred_user(user_type=Conf.USER_TYPE_MEMBER),
             **defaults
         })
 
