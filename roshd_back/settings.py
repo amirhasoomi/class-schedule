@@ -107,7 +107,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-_DEFAULT_TIME_RELATED_FORMAT = '%s'
+_DEFAULT_TIME_RELATED_FORMAT = '%Y-%m-%d'
 
 REST_FRAMEWORK = dict(
     DEFAULT_PERMISSION_CLASSES=('rest_framework.permissions.IsAuthenticated',),

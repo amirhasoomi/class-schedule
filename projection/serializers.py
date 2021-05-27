@@ -10,7 +10,7 @@ class CreateProposalSerializer(serializers.ModelSerializer):
         model = Proposal
         fields = ('pk', 'unique_code', 'title', 'description',
                   'leader', 'members', 'file', 'judges', 'register_date')
-        read_only_fields = ('pk', 'unique_code')
+        read_only_fields = ('pk', 'unique_code', 'register_date')
 
     def create(self, validated_data):
         validated_data['unique_code'] = get_random_string(length=10).upper()
@@ -23,3 +23,21 @@ class ListProposalSerializer(serializers.ModelSerializer):
         model = Proposal
         fields = ('__all__')
         read_only_fields = ('pk', 'unique_code')
+
+
+class UpdateProposalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Proposal
+        fields = ('__all__')
+        read_only_fields = ('pk', 'unique_code', 'title', 'description',
+                            'leader', 'members', 'file', 'judges',
+                            'register_date', 'ip_address')
+
+
+class UpdateLeaderProposalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Proposal
+        fields = ('__all__')
+        read_only_fields = ('pk', 'unique_code', 'register_date',
+                            'check_date', 'assent_date', 'present_date',
+                            'accept_date', 'aontract_date', 'ip_address')
