@@ -4,14 +4,14 @@ from django.core.validators import FileExtensionValidator
 
 
 class Proposal(models.Model):
-    unique_code = models.CharField(unique=True, max_length=20)
-    title = models.CharField(max_length=10)
-    description = models.TextField(max_length=250)
-    leader = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    members = models.ManyToManyField(User, related_name="member")
+    unique_code = models.CharField(unique=True, max_length=20, null=True)
+    title = models.CharField(max_length=10, null=True)
+    description = models.TextField(max_length=250, null=True)
+    leader = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
+    members = models.ManyToManyField(User, related_name="member", null=True)
     file = models.FileField(upload_to='files', validators=[
-                            FileExtensionValidator(['pdf'])])
-    judges = models.ManyToManyField(User, related_name="judge")
+                            FileExtensionValidator(['pdf'])], null=True)
+    judges = models.ManyToManyField(User, related_name="judge", null=True)
     register_date = models.DateTimeField(auto_now_add=True)
     check_date = models.DateField(null=True)
     assent_date = models.DateField(null=True)

@@ -12,9 +12,9 @@ from django.db.models import Q
 class ProposalViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
-        if self.action in {'create', 'Destroy'}:
+        if self.action in {'create', 'destroy'}:
             permission_classes = [IsAuthenticated, IsAdmin | IsMember]
-        elif self.action in {'list', 'retrieve', 'patch'}:
+        elif self.action in {'list', 'retrieve'}:
             permission_classes = [IsAuthenticated,
                                   IsAdmin | IsMember | IsJudge]
         return [permission() for permission in permission_classes]
@@ -24,15 +24,18 @@ class ProposalViewSet(viewsets.ModelViewSet):
             return CreateProposalSerializer
         elif self.action == 'list':
             return ListProposalSerializer
-        # elif self.action == 'Destroy':
-        #     return True  # serializers.GroupDetailSerializer
+        elif self.action == 'destroy':
+            return CreateProposalSerializer
         # elif self.action == 'retrieve':
         #     return True  # serializers.GroupDetailSerializer
 
     def get_queryset(self):
         if self.request.user.user_type == AuthConf.USER_TYPE_MEMBER:
-            return Proposal.objects.filter(
-                Q(leader=self.request.user) | Q(members=self.request.user))
+            if self.action in {'create', 'list', 'retrieve'}:
+                return Proposal.objects.filter(
+                    Q(leader=self.request.user) | Q(members=self.request.user))
+            elif self.action == 'destroy':
+                return Proposal.objects.filter(leader=self.request.user)
         elif self.request.user.user_type == AuthConf.USER_TYPE_JUDGE:
             return Proposal.objects.filter(judges=self.request.user)
         elif self.request.user.user_type == AuthConf.USER_TYPE_ADMIN:
