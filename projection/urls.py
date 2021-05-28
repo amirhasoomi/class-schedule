@@ -6,7 +6,7 @@ urlpatterns = [
     path('proposal', ProposalViewSet.as_view({'post': 'create',
                                               'get': 'list'})),
     path('proposal/<int:pk>', ProposalViewSet.as_view({'post': 'create',
-                                                       'get': 'list',
+                                                       'get': 'retrieve',
                                                        'delete': 'destroy'})),
     path('proposal/<int:pk>',
          UpdateProposalViewSet.as_view({'patch': 'update',

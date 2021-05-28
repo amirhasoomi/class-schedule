@@ -26,8 +26,8 @@ class ProposalViewSet(viewsets.ModelViewSet):
             return ListProposalSerializer
         elif self.action == 'destroy':
             return CreateProposalSerializer
-        # elif self.action == 'retrieve':
-        #     return True  # serializers.GroupDetailSerializer
+        elif self.action == 'retrieve':
+            return CreateProposalSerializer
 
     def get_queryset(self):
         if self.request.user.user_type == AuthConf.USER_TYPE_MEMBER:
@@ -40,9 +40,6 @@ class ProposalViewSet(viewsets.ModelViewSet):
             return Proposal.objects.filter(judges=self.request.user)
         elif self.request.user.user_type == AuthConf.USER_TYPE_ADMIN:
             return Proposal.objects.all()
-
-    # def get_queryset(self):
-    #     return Proposal.objects.exclude().order_by('pk')
 
 
 class UpdateProposalViewSet(viewsets.ModelViewSet):
