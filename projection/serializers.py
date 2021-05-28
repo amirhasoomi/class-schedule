@@ -38,6 +38,6 @@ class UpdateLeaderProposalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Proposal
         fields = ('__all__')
-        read_only_fields = ('pk', 'unique_code', 'register_date',
+        read_only_fields = ('pk', 'unique_code', 'register_date', 'judges',
                             'check_date', 'assent_date', 'present_date',
                             'accept_date', 'aontract_date', 'ip_address')
