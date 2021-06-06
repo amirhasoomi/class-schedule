@@ -1,7 +1,6 @@
 from django.db import models
 from authentication.models import User
 from django.core.validators import FileExtensionValidator
-from .apps import ProjectionConfig as Conf
 
 
 class Proposal(models.Model):
@@ -20,8 +19,3 @@ class Proposal(models.Model):
     accept_date = models.DateField(null=True)
     aontract_date = models.DateField(null=True)
     ip_address = models.CharField(max_length=15, null=True)
-    status = models.PositiveSmallIntegerField(
-        choices=Conf.STSATUS_TYPES,
-        help_text='status of proposal',
-        default=Conf.STATUS_REGISTRATED,
-    )
