@@ -1,8 +1,10 @@
-from rest_framework import generics
+from rest_framework import generics, viewsets
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from .models import Profile
+from .models import Profile, User
 from .serializers import (RegisterSerializer, LoginSerializer,
-                          ChangePasswordSerializer, ProfileSerializer)
+                          ChangePasswordSerializer, ProfileSerializer,
+                          UsertypeSerializer)
+from utils.permissions import IsAdmin
 
 
 class RegisterView(generics.CreateAPIView):
@@ -27,3 +29,9 @@ class ProfileView(generics.RetrieveUpdateAPIView):
 
     def get_object(self):
         return self.request.user.profile
+
+
+class UsertypeView(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated, IsAdmin)
+    serializer_class = UsertypeSerializer
+    queryset = User.objects.all()

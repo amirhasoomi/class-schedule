@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Profile
+from .models import Profile, User
 from django.contrib.auth.hashers import make_password
 from .apps import AuthenticationConfig as Conf
 
@@ -118,3 +118,10 @@ class ProfileSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 dict(email=['email is used before!', ]))
         return attrs
+
+
+class UsertypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('__all__')
+        read_only_fields = ('__all__',)
