@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Proposal
 from django.utils.crypto import get_random_string
+from authentication.apps import AuthenticationConfig as AuthConf
 
 
 class CreateProposalSerializer(serializers.ModelSerializer):
@@ -10,7 +11,7 @@ class CreateProposalSerializer(serializers.ModelSerializer):
         model = Proposal
         fields = ('pk', 'unique_code', 'title', 'description',
                   'leader', 'members', 'file', 'judges', 'register_date')
-        read_only_fields = ('pk', 'unique_code', 'register_date')
+        read_only_fields = ('pk', 'unique_code', 'register_date', 'judges',)
 
     def create(self, validated_data):
         validated_data['unique_code'] = get_random_string(length=10).upper()
@@ -41,3 +42,22 @@ class UpdateLeaderProposalSerializer(serializers.ModelSerializer):
         read_only_fields = ('pk', 'unique_code', 'register_date', 'judges',
                             'check_date', 'assent_date', 'present_date',
                             'accept_date', 'aontract_date', 'ip_address')
+
+
+class AddJudgeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Proposal
+        fields = ('judges',)
+        read_only_fields = ('pk', 'unique_code', 'register_date', 'check_date',
+                            'assent_date', 'present_date', 'accept_date',
+                            'aontract_date', 'ip_address', 'title',
+                            'description', 'leader', 'members', 'file')
+
+    def validate(self, attrs):
+        judges = attrs['judges']
+        for judge in judges:
+            if not judge.user_type == AuthConf.USER_TYPE_JUDGE:
+                raise serializers.ValidationError(
+                    dict(judges=[f'{judge.pk} is not a judge!', ]))
+            else:
+                return super().validate(attrs)

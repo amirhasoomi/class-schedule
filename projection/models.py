@@ -8,10 +8,10 @@ class Proposal(models.Model):
     title = models.CharField(max_length=10, null=True)
     description = models.TextField(max_length=250, null=True)
     leader = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
-    members = models.ManyToManyField(User, related_name="member", null=True)
+    members = models.ManyToManyField(User, related_name="member")
     file = models.FileField(upload_to='files', validators=[
                             FileExtensionValidator(['pdf'])], null=True)
-    judges = models.ManyToManyField(User, related_name="judge", null=True)
+    judges = models.ManyToManyField(User, related_name="judge")
     register_date = models.DateTimeField(auto_now_add=True)
     check_date = models.DateField(null=True)
     assent_date = models.DateField(null=True)

@@ -2,7 +2,8 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from .serializers import (CreateProposalSerializer, ListProposalSerializer,
                           UpdateProposalSerializer,
-                          UpdateLeaderProposalSerializer)
+                          UpdateLeaderProposalSerializer,
+                          AddJudgeSerializer,)
 from utils.permissions import IsJudge, IsMember, IsAdmin
 from .models import Proposal
 from authentication.apps import AuthenticationConfig as AuthConf
@@ -60,3 +61,11 @@ class LeaderUpdateProposalViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         if Proposal.objects.filter(leader=self.request.user).exists():
             return Proposal.objects.filter(leader=self.request.user)
+
+
+class AddJudgeViewSet(viewsets.ModelViewSet):
+    permission_classes = (IsAuthenticated, IsAdmin)
+    serializer_class = AddJudgeSerializer
+    queryset = Proposal.objects.all()
+
+    # FIXME fix delete judge from proposal
