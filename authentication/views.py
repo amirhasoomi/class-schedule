@@ -3,8 +3,9 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from .models import Profile, User
 from .serializers import (RegisterSerializer, LoginSerializer,
                           ChangePasswordSerializer, ProfileSerializer,
-                          UsertypeSerializer)
+                          UserSerializer)
 from utils.permissions import IsAdmin
+from .apps import AuthenticationConfig as Conf
 
 
 class RegisterView(generics.CreateAPIView):
@@ -33,5 +34,19 @@ class ProfileView(generics.RetrieveUpdateAPIView):
 
 class UsertypeView(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated, IsAdmin)
-    serializer_class = UsertypeSerializer
+    serializer_class = UserSerializer
     queryset = User.objects.all()
+
+
+class MembersView(generics.ListAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = ProfileSerializer
+    user = User
+    queryset = Profile.objects.filter(user__user_type=Conf.USER_TYPE_MEMBER)
+
+
+class JudgesView(generics.ListAPIView):
+    permission_classes = (IsAuthenticated, IsAdmin)
+    serializer_class = ProfileSerializer
+    user = User
+    queryset = Profile.objects.filter(user__user_type=Conf.USER_TYPE_JUDGE)
