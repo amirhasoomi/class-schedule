@@ -57,7 +57,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['projection/pdf_generator', ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

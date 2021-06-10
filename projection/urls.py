@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import (ProposalViewSet, UpdateProposalViewSet,
-                    LeaderUpdateProposalViewSet, AddJudgeViewSet,)
+                    LeaderUpdateProposalViewSet, AddJudgeViewSet,
+                    ExportPdfViewSet)
 
 urlpatterns = [
     path('proposal',
@@ -20,4 +21,7 @@ urlpatterns = [
     path('proposal/<int:pk>/judge',
          AddJudgeViewSet.as_view({'get': 'retrieve',
                                   'patch': 'update'})),
+
+    path('proposal/<int:pk>/export',
+         ExportPdfViewSet.as_view({'get': 'retrieve'})),
 ]

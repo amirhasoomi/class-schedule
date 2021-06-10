@@ -52,6 +52,7 @@ class Profile(CreationMixin):
     username = models.CharField(max_length=128, unique=True)
     f_name = models.CharField(blank=True, null=True, max_length=128)
     l_name = models.CharField(blank=True, null=True, max_length=128)
+    national_id = models.CharField(blank=True, null=True, max_length=10)
     birthday = models.DateField(blank=True, null=True)
     phone = models.CharField(blank=True, null=True, max_length=11)
     mobile = models.CharField(unique=True, max_length=11)

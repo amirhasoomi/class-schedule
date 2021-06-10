@@ -1,0 +1,116 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="pdfkit-page-size" content="Legal" />
+    <meta name="pdfkit-orientation" content="Landscape" />
+
+</head>
+
+<body style="text-align: center; align-items:center ; direction: rtl;">
+    <h3>عنوان طرح:{{proposal.title}}</h3>
+    <h4>کد طرح:{{proposal.unique_code}}</h4>
+    <h4>چکیده:</h4>
+    <p>{{proposal.description}}</p>
+    <h4>اعضای تیم:</h4>
+    <table style="width:100%; border: 1px solid #ddd; table-layout: fixed;">
+        <tr>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #acacac;">نام</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #acacac;">نام خانوادگی</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #acacac;">کد ملی</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #acacac;">تاریخ تولد</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #acacac;">تلفن ثابت</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #acacac;">تلفن همراه</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #acacac;">ایمیل</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #acacac;">مدرک تحصیلی</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #acacac;">نشانی</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #acacac;">رشته</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #acacac;">گرایش</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #acacac;">کشور</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #acacac;">استان</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #acacac;">شهر</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #acacac;">سمت</th>
+        </tr>
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{proposal.leader.profile.f_name}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{proposal.leader.profile.l_name}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{proposal.leader.profile.national_id}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{proposal.leader.profile.birthday}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{proposal.leader.profile.phone}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{proposal.leader.profile.mobile}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{proposal.leader.profile.email}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{proposal.leader.profile.ldc}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{proposal.leader.profile.major}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{proposal.leader.profile.orientation}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{proposal.leader.profile.Country}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{proposal.leader.profile.state}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{proposal.leader.profile.city}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{proposal.leader.profile.f_name}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">سرپرست</td>
+        </tr>
+        {% for member in members %}
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{member.profile.f_name}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{member.profile.l_name}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{member.profile.national_id}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{member.profile.birthday}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{member.profile.phone}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{member.profile.mobile}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{member.profile.email}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{member.profile.ldc}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{member.profile.major}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{member.profile.orientation}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{member.profile.Country}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{member.profile.state}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{member.profile.city}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{member.profile.f_name}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">عضو</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h4>داوران:</h4>
+    <table style="width:100%; border: 1px solid #ddd; table-layout: fixed;">
+        <tr>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #acacac;">نام</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #acacac;">نام خانوادگی</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #acacac;">کد ملی</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #acacac;">تلفن ثابت</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #acacac;">تلفن همراه</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #acacac;">ایمیل</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #acacac;">مدرک تحصیلی</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #acacac;">نشانی</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #acacac;">رشته</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #acacac;">گرایش</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #acacac;">کشور</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #acacac;">استان</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background-color: #acacac;">شهر</th>
+        </tr>
+        {% for judge in judges %}
+        <tr>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{judge.profile.f_name}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{judge.profile.l_name}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{judge.profile.national_id}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{judge.profile.phone}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{judge.profile.mobile}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{judge.profile.email}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{judge.profile.ldc}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{judge.profile.major}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{judge.profile.orientation}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{judge.profile.Country}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{judge.profile.state}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{judge.profile.city}}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">{{judge.profile.f_name}}</td>
+
+        </tr>
+        {% endfor %}
+    </table>
+    <br><br>
+    <a href="{{proposal.file}}">مشاهده فایل طرح</a><br><br><br>
+
+
+</body>
+<footer style="bottom: 0px;">
+    <span>{{status}}</span><br><span>در تاریخ: {{status_date}} </span><br>
+    <span>تاریخ ثبت: {{register_date}} </span><br>
+</footer>
+</html>
