@@ -103,8 +103,8 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = ('user', 'username', 'f_name', 'l_name',
                   'birthday', 'phone', 'mobile', 'email',
                   'address', 'ldc', 'major', 'orientation',
-                  'Country', 'state', 'city', 'specialty')
-        read_only_fields = ('user', 'birthday',)
+                  'Country', 'state', 'city', 'specialty', 'national_id')
+        read_only_fields = ('user',)
 
     def validate(self, attrs):
         username = attrs['username'].lower()
