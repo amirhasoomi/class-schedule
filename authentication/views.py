@@ -48,3 +48,9 @@ class JudgesView(generics.ListAPIView):
     permission_classes = (IsAuthenticated, IsAdmin)
     serializer_class = ProfileSerializer
     queryset = Profile.objects.filter(user__user_type=Conf.USER_TYPE_JUDGE)
+
+
+class AllUsersView(generics.ListAPIView):
+    permission_classes = (IsAuthenticated, IsAdmin)
+    serializer_class = ProfileSerializer
+    queryset = Profile.objects.all()
