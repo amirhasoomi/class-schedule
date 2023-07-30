@@ -28,7 +28,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'features.apps.FeaturesConfig',
     'authentication.apps.AuthenticationConfig',
     'projection.apps.ProjectionConfig',
 
@@ -131,7 +130,7 @@ REST_FRAMEWORK = dict(
 
 SIMPLE_JWT = dict(
     ACCESS_TOKEN_LIFETIME=timedelta(days=1),
-    REFRESH_TOKEN_LIFETIME=timedelta(days=1),
+    REFRESH_TOKEN_LIFETIME=timedelta(days=15),
     ROTATE_REFRESH_TOKENS=True,
     ALGORITHM='HS256',
     SIGNING_KEY=SECRET_KEY,
@@ -148,7 +147,7 @@ SPECTACULAR_SETTINGS = {
         "docExpansion": None
     },
     "SWAGGER_UI_DIST": "//unpkg.com/swagger-ui-dist@3.42.0",
-    'SCHEMA_PATH_PREFIX': r'/api',
+    'SCHEMA_PATH_PREFIX': r'/api/',
     'TITLE': 'Roshd API',
     'DESCRIPTION': 'Lorem ipsum.',
     'VERSION': '1.0.0',

@@ -1,21 +1,42 @@
 from django.db import models
-from authentication.models import User
-from django.core.validators import FileExtensionValidator
+from authentication.models import Profile
+from .apps import ProjectionConfig as conf
 
 
-class Proposal(models.Model):
-    unique_code = models.CharField(unique=True, max_length=20, null=True)
-    title = models.CharField(max_length=10, null=True)
-    description = models.TextField(max_length=250, null=True)
-    leader = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True)
-    members = models.ManyToManyField(User, related_name="member")
-    file = models.FileField(upload_to='files', validators=[
-                            FileExtensionValidator(['pdf'])], null=True)
-    judges = models.ManyToManyField(User, related_name="judge")
-    register_date = models.DateTimeField(auto_now_add=True)
-    check_date = models.DateField(null=True)
-    assent_date = models.DateField(null=True)
-    present_date = models.DateField(null=True)
-    accept_date = models.DateField(null=True)
-    aontract_date = models.DateField(null=True)
-    ip_address = models.CharField(max_length=15, null=True)
+class Field(models.Model):
+    name = models.CharField(max_length=20)
+    code = models.CharField(max_length=10, unique=True)
+
+
+class Plato(models.Model):
+    building = models.CharField(max_length=10)
+    name = models.CharField(max_length=10)
+    capacity = models.IntegerField()
+
+
+class Lesson(models.Model):
+    name = models.CharField(max_length=128)
+    code = models.CharField(max_length=10, unique=True)
+    field = models.ForeignKey(Field, on_delete=models.SET_NULL, null=True)
+    theory_course = models.IntegerField()
+    practical_course = models.IntegerField()
+
+
+class Exam(models.Model):
+    name = models.CharField(max_length=128)
+    date = models.DateField()
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    location = models.CharField(max_length=128)
+
+
+class Schedule(models.Model):
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    date_of_week = models.PositiveSmallIntegerField(choices=conf.WEEK_DAYS)
+    plato = models.ForeignKey(Plato, on_delete=models.SET_NULL, null=True)
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    professor = models.ForeignKey(
+        Profile, on_delete=models.SET_NULL, null=True)
+    capacity = models.IntegerField()
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)

@@ -11,10 +11,4 @@ class IsAdmin(permissions.BasePermission):
 class IsMember(permissions.BasePermission):
     def has_permission(self, request, view):
         return bool(
-            request.user and request.user.user_type == Conf.USER_TYPE_MEMBER)
-
-
-class IsJudge(permissions.BasePermission):
-    def has_permission(self, request, view):
-        return bool(
-            request.user and request.user.user_type == Conf.USER_TYPE_JUDGE)
+            request.user and request.user.user_type == Conf.USER_TYPE_USER)

@@ -100,17 +100,12 @@ class ChangePasswordSerializer(serializers.Serializer):
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ('user', 'username', 'f_name', 'l_name',
-                  'birthday', 'phone', 'mobile', 'email',
-                  'address', 'ldc', 'major', 'orientation',
-                  'Country', 'state', 'city', 'specialty', 'national_id')
+        fields = ('user', 'f_name', 'l_name',
+                  'birthday', 'mobile', 'email', 'prof_id',
+                  'major', 'orientation', 'national_id')
         read_only_fields = ('user',)
 
     def validate(self, attrs):
-        username = attrs['username'].lower()
-        if Profile.objects.filter(username=username).exists():
-            raise serializers.ValidationError(
-                dict(username=['username is used before!', ]))
         if Profile.objects.filter(mobile=attrs['mobile']).exists():
             raise serializers.ValidationError(
                 dict(mobile=['mobile is used before!', ]))

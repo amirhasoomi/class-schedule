@@ -8,7 +8,6 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('api/', include([
         path('auth/', include('authentication.urls')),
-        path('features/', include('features.urls')),
         path('projection/', include('projection.urls')),
 
     ])),

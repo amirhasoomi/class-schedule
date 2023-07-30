@@ -17,7 +17,7 @@ class User(AbstractBaseUser):
     id = models.BigAutoField(primary_key=True)
     user_type = models.PositiveSmallIntegerField(
         choices=Conf.USER_TYPES,
-        help_text='is Admin , Leader , Member or Judge',
+        help_text='is Admin or User',
     )
     password = None
     last_login = None
@@ -39,7 +39,7 @@ class User(AbstractBaseUser):
 
     @property
     def is_staff(self):
-        return self.user_type == Conf.USER_TYPE_MEMBER
+        return self.user_type == Conf.USER_TYPE_USER
 
     def api_token(self):
         refresh = RefreshToken.for_user(self)
@@ -49,22 +49,15 @@ class User(AbstractBaseUser):
 class Profile(CreationMixin):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, primary_key=True)
-    username = models.CharField(max_length=128, unique=True)
     f_name = models.CharField(blank=True, null=True, max_length=128)
     l_name = models.CharField(blank=True, null=True, max_length=128)
     national_id = models.CharField(blank=True, null=True, max_length=10)
+    prof_id = models.CharField(blank=True, null=True, max_length=10)
     birthday = models.DateField(blank=True, null=True)
-    phone = models.CharField(blank=True, null=True, max_length=11)
     mobile = models.CharField(unique=True, max_length=11)
-    email = models.CharField(max_length=128, unique=True)
-    address = models.CharField(blank=True, null=True, max_length=256)
-    ldc = models.CharField(blank=True, null=True, max_length=128)
+    email = models.EmailField(max_length=254)
     major = models.CharField(blank=True, null=True, max_length=128)
     orientation = models.CharField(blank=True, null=True, max_length=128)
-    Country = models.CharField(blank=True, null=True, max_length=50)
-    state = models.CharField(blank=True, null=True, max_length=50)
-    city = models.CharField(blank=True, null=True, max_length=50)
-    specialty = models.CharField(blank=True, null=True, max_length=50)
     password = models.TextField()
 
     def __str__(self):
@@ -76,7 +69,7 @@ class Profile(CreationMixin):
 
         defaults = defaults or {}
         return cls.objects.get_or_create(**kwargs, defaults={
-            'user': User.create_deferred_user(user_type=Conf.USER_TYPE_MEMBER),
+            'user': User.create_deferred_user(user_type=Conf.USER_TYPE_USER),
             **defaults
         })
 
