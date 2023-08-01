@@ -23,13 +23,19 @@ class ChangePasswordView(generics.CreateAPIView):
     serializer_class = ChangePasswordSerializer
 
 
-class ProfileView(generics.RetrieveUpdateAPIView):
+class MyProfileView(generics.RetrieveUpdateAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = ProfileSerializer
     queryset = Profile.objects.all()
 
     def get_object(self):
         return self.request.user.profile
+
+
+class ProfileView(generics.RetrieveUpdateAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = ProfileSerializer
+    queryset = Profile.objects.all()
 
 
 class UsertypeView(viewsets.ModelViewSet):

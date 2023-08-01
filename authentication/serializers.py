@@ -4,6 +4,13 @@ from django.contrib.auth.hashers import make_password
 from .apps import AuthenticationConfig as Conf
 
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('__all__')
+        read_only_fields = ('__all__',)
+
+
 class RegisterSerializer(serializers.Serializer):
     pk = serializers.IntegerField(read_only=True)
     mobile = serializers.CharField()
@@ -98,6 +105,8 @@ class ChangePasswordSerializer(serializers.Serializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+
     class Meta:
         model = Profile
         fields = ('user', 'f_name', 'l_name',
@@ -113,10 +122,3 @@ class ProfileSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 dict(email=['email is used before!', ]))
         return attrs
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('__all__')
-        read_only_fields = ('__all__',)
