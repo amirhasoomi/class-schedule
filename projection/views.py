@@ -35,7 +35,11 @@ class FieldViewSet(viewsets.ModelViewSet):
 
 
 class LessonViewSet(viewsets.ModelViewSet):
-    queryset = Lesson.objects.all()
+    # queryset = Lesson.objects.all()
+
+    def get_queryset(self):
+        field = self.kwargs['field']
+        return Lesson.objects.filter(field=field)
 
     def get_permissions(self):
         if self.action in {'create', 'destroy', 'update'}:

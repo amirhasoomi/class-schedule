@@ -23,7 +23,7 @@ class CreateLessonSerializer(serializers.ModelSerializer):
 
 
 class ListLessonSerializer(serializers.ModelSerializer):
-    field = FieldSerializer()
+    # field = FieldSerializer()
 
     class Meta:
         model = Lesson
