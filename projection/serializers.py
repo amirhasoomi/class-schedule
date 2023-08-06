@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from authentication.serializers import ProfileSerializer
-from .models import Field, Plato, Lesson, Exam, Schedule
+from .models import Field, Plato, Lesson, Schedule
+from django.db.models import Q
 
 
 class FieldSerializer(serializers.ModelSerializer):
@@ -31,31 +32,32 @@ class ListLessonSerializer(serializers.ModelSerializer):
                   'theory_course', 'practical_course')
 
 
-class ExamSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Exam
-        fields = ('id', 'name', 'date', 'start_time', 'end_time', 'location',)
-
-
 class CreateScheduleSerializer(serializers.ModelSerializer):
-    exam = ExamSerializer()
-
     class Meta:
         model = Schedule
         fields = ('id', 'start_time', 'end_time', 'date_of_week',
-                  'plato', 'lesson', 'professor', 'capacity', 'exam',)
+                  'plato', 'lesson', 'professor', 'capacity',)
 
     def validate(self, attrs):
-
+        super().validate(attrs)
+        schedule_list = Schedule.objects.filter(Q(date_of_week=attrs['date_of_week']) & Q(
+            start_time__lt=attrs['end_time']) & Q(end_time__gt=attrs['start_time'])).all()
+        error_list = []
+        for schedule in schedule_list:
+            if schedule.professor == attrs['professor']:
+                error_list.append('ostad dare koon mide!!')
+            if schedule.plato == attrs['plato']:
+                error_list.append('too plato daran koon midan!!')
+        if len(error_list) > 0:
+            raise serializers.ValidationError(dict(schedule_error=error_list))
         return super().validate(attrs)
 
 
 class ListScheduleSerializer(serializers.ModelSerializer):
     plato = PLatoSerializer()
     professor = ProfileSerializer()
-    exam = ExamSerializer()
 
     class Meta:
         model = Schedule
         fields = ('id', 'start_time', 'end_time', 'date_of_week',
-                  'plato', 'lesson', 'professor', 'capacity', 'exam',)
+                  'plato', 'lesson', 'professor', 'capacity',)

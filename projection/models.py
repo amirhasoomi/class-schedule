@@ -9,8 +9,8 @@ class Field(models.Model):
 
 
 class Plato(models.Model):
-    building = models.CharField(max_length=10)
-    name = models.CharField(max_length=10)
+    building = models.CharField(max_length=128)
+    name = models.CharField(max_length=128)
     capacity = models.IntegerField()
 
 
@@ -22,14 +22,6 @@ class Lesson(models.Model):
     practical_course = models.IntegerField()
 
 
-class Exam(models.Model):
-    name = models.CharField(max_length=128)
-    date = models.DateField()
-    start_time = models.TimeField()
-    end_time = models.TimeField()
-    location = models.CharField(max_length=128)
-
-
 class Schedule(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
@@ -39,4 +31,8 @@ class Schedule(models.Model):
     professor = models.ForeignKey(
         Profile, on_delete=models.SET_NULL, null=True)
     capacity = models.IntegerField()
-    exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
+    exam_name = models.CharField(max_length=128, null=True)
+    exam_date = models.DateField(null=True)
+    exam_start_time = models.TimeField(null=True)
+    exam_end_time = models.TimeField(null=True)
+    exam_location = models.CharField(max_length=128, null=True)
