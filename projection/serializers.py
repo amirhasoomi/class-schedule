@@ -24,7 +24,7 @@ class CreateLessonSerializer(serializers.ModelSerializer):
 
 
 class ListLessonSerializer(serializers.ModelSerializer):
-    # field = FieldSerializer()
+    field = FieldSerializer()
 
     class Meta:
         model = Lesson
@@ -36,7 +36,8 @@ class CreateScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Schedule
         fields = ('id', 'start_time', 'end_time', 'date_of_week',
-                  'plato', 'lesson', 'professor', 'capacity',)
+                  'plato', 'lesson', 'professor', 'capacity', 'exam_name',
+                  'exam_date', 'exam_start_time', 'exam_end_time', 'exam_location',)
 
     def validate(self, attrs):
         super().validate(attrs)
@@ -45,9 +46,9 @@ class CreateScheduleSerializer(serializers.ModelSerializer):
         error_list = []
         for schedule in schedule_list:
             if schedule.professor == attrs['professor']:
-                error_list.append('ostad dare koon mide!!')
+                error_list.append('professor is not available')
             if schedule.plato == attrs['plato']:
-                error_list.append('too plato daran koon midan!!')
+                error_list.append('plato is not available')
         if len(error_list) > 0:
             raise serializers.ValidationError(dict(schedule_error=error_list))
         return super().validate(attrs)
@@ -56,6 +57,7 @@ class CreateScheduleSerializer(serializers.ModelSerializer):
 class ListScheduleSerializer(serializers.ModelSerializer):
     plato = PLatoSerializer()
     professor = ProfileSerializer()
+    lesson = ListLessonSerializer()
 
     class Meta:
         model = Schedule

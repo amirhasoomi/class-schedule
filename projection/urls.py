@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (
-    PlatoViewSet, FieldViewSet, LessonViewSet, ScheduleViewSet
+    PlatoViewSet, FieldViewSet, LessonViewSet, ScheduleViewSet, ScheduleByFieldViewSet
 )
 
 urlpatterns = [
@@ -34,5 +34,7 @@ urlpatterns = [
          ScheduleViewSet.as_view({'get': 'retrieve',
                                   'delete': 'destroy',
                                   'put': 'update'})),
+    path('schedule/field/<int:field>',
+         ScheduleByFieldViewSet.as_view({'get': 'list', })),
 
 ]

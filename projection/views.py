@@ -35,7 +35,6 @@ class FieldViewSet(viewsets.ModelViewSet):
 
 
 class LessonViewSet(viewsets.ModelViewSet):
-    # queryset = Lesson.objects.all()
 
     def get_queryset(self):
         field = self.kwargs['field']
@@ -75,6 +74,14 @@ class ScheduleViewSet(viewsets.ModelViewSet):
             return Schedule.objects.all()
         elif self.request.user.user_type == AuthConf.USER_TYPE_USER:
             return Schedule.objects.filter(professor=self.request.user)
+
+
+class ScheduleByFieldViewSet(viewsets.ModelViewSet):
+    serializer_class = ListScheduleSerializer
+
+    def get_queryset(self):
+        field = self.kwargs['field']
+        return Schedule.objects.filter(lesson__field=field)
 
 
 # class ExportPdfViewSet(viewsets.ModelViewSet):
