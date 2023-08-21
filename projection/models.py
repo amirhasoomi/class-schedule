@@ -28,11 +28,17 @@ class Schedule(models.Model):
     date_of_week = models.PositiveSmallIntegerField(choices=conf.WEEK_DAYS)
     plato = models.ForeignKey(Plato, on_delete=models.SET_NULL, null=True)
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
-    professor = models.ForeignKey(
-        Profile, on_delete=models.SET_NULL, null=True)
+    professor = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
     capacity = models.IntegerField()
     exam_name = models.CharField(max_length=128, null=True)
     exam_date = models.DateField(null=True)
     exam_start_time = models.TimeField(null=True)
     exam_end_time = models.TimeField(null=True)
     exam_location = models.CharField(max_length=128, null=True)
+
+
+class Availability(models.Model):
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    date_of_week = models.PositiveSmallIntegerField(choices=conf.WEEK_DAYS)
+    professor = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)

@@ -3,10 +3,11 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from .serializers import (PLatoSerializer, FieldSerializer,
                           CreateLessonSerializer, ListLessonSerializer,
-                          CreateScheduleSerializer, ListScheduleSerializer
+                          CreateScheduleSerializer, ListScheduleSerializer,
+                          CreateAvailabilitySerializer, ListAvailabilitySerializer
                           )
 from utils.permissions import IsAdmin
-from .models import Plato, Field, Lesson, Schedule
+from .models import Plato, Field, Lesson, Schedule, Availability
 from authentication.apps import AuthenticationConfig as AuthConf
 
 
@@ -82,6 +83,22 @@ class ScheduleByFieldViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         field = self.kwargs['field']
         return Schedule.objects.filter(lesson__field=field)
+
+
+class AvailabilityViewSet(viewsets.ModelViewSet):
+    permission_class = (IsAuthenticated,)
+
+    def get_queryset(self):
+        if self.request.user.user_type == AuthConf.USER_TYPE_ADMIN:
+            return Availability.objects.all()
+        elif self.request.user.user_type == AuthConf.USER_TYPE_USER:
+            return Availability.objects.filter(professor__user=self.request.user)
+
+    def get_serializer_class(self):
+        if self.action in {'create', 'destroy'}:
+            return CreateAvailabilitySerializer
+        elif self.action in {'list', 'retrieve'}:
+            return ListAvailabilitySerializer
 
 
 # class ExportPdfViewSet(viewsets.ModelViewSet):

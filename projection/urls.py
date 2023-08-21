@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import (
-    PlatoViewSet, FieldViewSet, LessonViewSet, ScheduleViewSet, ScheduleByFieldViewSet
+    PlatoViewSet, FieldViewSet, LessonViewSet, ScheduleViewSet, ScheduleByFieldViewSet,
+    AvailabilityViewSet
 )
 
 urlpatterns = [
@@ -36,5 +37,8 @@ urlpatterns = [
                                   'put': 'update'})),
     path('schedule/field/<int:field>',
          ScheduleByFieldViewSet.as_view({'get': 'list', })),
+    path('availability',
+         AvailabilityViewSet.as_view({'post': 'create',
+                                      'get': 'list', })),
 
 ]

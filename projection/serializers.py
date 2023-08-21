@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from authentication.serializers import ProfileSerializer
-from .models import Field, Plato, Lesson, Schedule
+from .models import Field, Plato, Lesson, Schedule, Availability
 from django.db.models import Q
 
 
@@ -63,3 +63,35 @@ class ListScheduleSerializer(serializers.ModelSerializer):
         model = Schedule
         fields = ('id', 'start_time', 'end_time', 'date_of_week',
                   'plato', 'lesson', 'professor', 'capacity',)
+
+
+class ListAvailabilitySerializer(serializers.ModelSerializer):
+    professor = ProfileSerializer()
+
+    class Meta:
+        model = Availability
+        fields = ('id', 'start_time', 'end_time', 'date_of_week', 'professor',)
+
+
+class CreateAvailabilitySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Availability
+        fields = ('id', 'start_time', 'end_time', 'date_of_week',)
+
+    def validate(self, attrs):
+        super().validate(attrs)
+        availability_list = Availability.objects.filter(Q(date_of_week=attrs['date_of_week']) & Q(
+            start_time__lt=attrs['end_time']) & Q(end_time__gt=attrs['start_time'])).all()
+        error_list = []
+        for availability in availability_list:
+            if availability.professor == self.context.get("request").user.profile:
+                error_list.append('in this time you allredy is avalable')
+        if len(error_list) > 0:
+            raise serializers.ValidationError(dict(schedule_error=error_list))
+        return super().validate(attrs)
+
+    def create(self, validated_data):
+        profile = self.context.get("request").user.profile
+        validated_data['professor'] = profile
+        return super().create(validated_data)
