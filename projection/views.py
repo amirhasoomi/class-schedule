@@ -73,7 +73,7 @@ class ScheduleViewSet(viewsets.ModelViewSet):
         if self.request.user.user_type == AuthConf.USER_TYPE_ADMIN:
             return Schedule.objects.all()
         elif self.request.user.user_type == AuthConf.USER_TYPE_USER:
-            return Schedule.objects.filter(professor=self.request.user)
+            return Schedule.objects.filter(professor__user=self.request.user)
 
 
 class ScheduleByFieldViewSet(viewsets.ModelViewSet):
